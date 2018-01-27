@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MantaBuff : MonoBehaviour, CreatureBuff {
 
-	bool isAttached;
-	bool isWild;
+	bool isAttached = false;
+	bool isWild = true;
 	int hpAmount = 20;
 
 	public void attach(PlayerControllerScript player){
@@ -20,6 +20,15 @@ public class MantaBuff : MonoBehaviour, CreatureBuff {
 		player.addTotalHp (hpAmount);
 	}
 
+	public void detach(PlayerControllerScript player){
+		/*TODO
+		 * CRIAR MANTA
+		*/
+		player.setDJump ();
+		isAttached = false;
+		player.addTotalHp (-hpAmount);
+	}
+	
 	public void select(){
 		if (isAttached) {
 			gameObject.GetComponent<PlayerControllerScript>().select();
@@ -27,7 +36,7 @@ public class MantaBuff : MonoBehaviour, CreatureBuff {
 			gameObject.GetComponent<MantaController>().select();
 		}
 	}
-
+	
 	public void deselect(){
 		if (isAttached) {
 			gameObject.GetComponent<PlayerControllerScript>().deselect();
@@ -36,29 +45,20 @@ public class MantaBuff : MonoBehaviour, CreatureBuff {
 		}
 	}
 
-	public void detach(PlayerControllerScript player){
-		/*TODO
-		 * Desligar passivas,
-		 * Criar manta com X HP, e essebuff
-		 * player.removeBuff(this)
-		*/
-		player.setDJump ();
-		isAttached = false;
-		player.addTotalHp (-hpAmount);
-
-	}
-
 	public void action(PlayerControllerScript player){
 		/*TODO
 		 * Notificar player
 		 * executar
 		*/
+		Debug.Log ("Ação do Buff indisponível\n");
 	}
 
 	// Use this for initialization
+	/*
 	void Start () {
 		isAttached = false;
 	}
+	/*
 
 	/*
 	 * A criatura sabe quand ela é assimilada pela primeira vez

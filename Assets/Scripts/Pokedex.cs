@@ -64,7 +64,7 @@ public class Pokedex : MonoBehaviour {
 			selector (0);
 		}
 		if (Input.GetKeyDown (KeyCode.Alpha2)) {
-			selector (1;
+			selector (1);
 		}
 		if (Input.GetKeyDown (KeyCode.Alpha3)) {
 			selector (2);
