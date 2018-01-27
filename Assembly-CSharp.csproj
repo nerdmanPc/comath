@@ -108,7 +108,7 @@
      <Compile Include="Assets\Scripts\PlayerControlScript.cs" />
      <None Include="Assets\Cinemachine\ReleaseNotes.txt" />
  <Reference Include="Facebook.Unity.Settings">
- <HintPath>C:/Users/Romuado/Documents/Unity Projects/comath/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
+ <HintPath>C:/Users/Romuado/Documents/GitHub/comath/Library/FacebookSDK/Facebook.Unity.Settings.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
