@@ -73,3 +73,6 @@ C:\Users\Romuado\Documents\Unity Projects\comath\Temp\bin\Debug\UnityEditor.iOS.
 C:\Users\Romuado\Documents\Unity Projects\comath\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
 C:\Users\Romuado\Documents\Unity Projects\comath\obj\Debug\Assembly-CSharp.dll
 C:\Users\Romuado\Documents\Unity Projects\comath\obj\Debug\Assembly-CSharp.pdb
+C:\Users\JúliaMaria\Documents\fubaJAM\comath\obj\Debug\Assembly-CSharp.csprojResolveAssemblyReference.cache
+C:\Users\JúliaMaria\Documents\fubaJAM\comath\obj\Debug\Assembly-CSharp.dll
+C:\Users\JúliaMaria\Documents\fubaJAM\comath\obj\Debug\Assembly-CSharp.pdb

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerControllerScript : MonoBehaviour {
-
+	
 	public float speed;
+	[SerializeField] private CreatureBuff[5] buffs;
 
 	private Rigidbody2D rb2D;
 	// Use this for initialization
@@ -17,12 +18,23 @@ public class PlayerControllerScript : MonoBehaviour {
 		
 	}
 
-
+	/*
 	void Moviment(){
 		Vector2 horizontalMovement = Input.GetAxis ("Horizontal");
 		if(){
 			
 		}
+	}
+*/
+	void onTrggerStay(Collider other){
+		CreatureBuff buff = other.gameObject.GetComponent<CreatureBuff> ();
+		if (Input.GetAxisRaw ("Verical") < 0) {
+			buff.attach (this);
+		}
+	}
+
+	void addBuff (CreatureBuff buff){
+		buffs [0] = buff;
 	}
 }
 //BRANCH
