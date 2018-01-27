@@ -30,7 +30,6 @@ public class PlayerControllerScript : MonoBehaviour {
 	void FixedUpdate () {
 
 		Moviment ();
-
 	}
 
 		
@@ -45,23 +44,17 @@ public class PlayerControllerScript : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.R)){
 			detach (dummy.gameObject.GetComponent<MantaController>().getBuff());
 		}
-
 	}
 
 	public void addTotalHp(int value){
 		totalHp += value;
 	}
 		
-
 	bool VerifyFloor(string layer){
 		bool isFloorLeft = Physics2D.Linecast (this.transform.position, FloorLeft.position, 1 << LayerMask.NameToLayer(layer));
-
 		bool isFloorRight = Physics2D.Linecast (this.transform.position, FloorRight.position, 1 << LayerMask.NameToLayer(layer));
-
 		bool isFloorCenter = Physics2D.Linecast (this.transform.position, FloorCenter.position, 1 << LayerMask.NameToLayer(layer));
-
 		bool isFloor = isFloorCenter || isFloorLeft || isFloorRight;
-
 		return isFloor;
 	}
 
@@ -71,12 +64,9 @@ public class PlayerControllerScript : MonoBehaviour {
 		float horizontalMovement = Input.GetAxis ("Horizontal");
 
 		if (horizontalMovement != 0) {
-
 			rb2D.velocity = new Vector2 (horizontalMovement * speed, rb2D.velocity.y);
 		} else {
-
 			rb2D.velocity = new Vector2 (0f, rb2D.velocity.y);
-
 		}
 	}
 
@@ -94,21 +84,21 @@ public class PlayerControllerScript : MonoBehaviour {
 			//print ("resetou");
 			numJump = 2;
 		}
-			
-
 	}
 
 	public void select(){
 		isSelected = true;
-		CreatureBuff = null;
-		/*TODO
-		 * Ativa os controles no player
-		 * Ativa a camera do player/centraliza a camera no player
-		*/ 
+		selectedBuff = null; 
+	}
+
+	public void select(CreatureBuff buff){
+		isSelected = true;
+		selectedBuff = buff;
 	}
 
 	public void deselect(){
-		//TODO
+		isSelected = false;
+		selectedBuff = null;
 	}
 
 	public void assimilate(CreatureBuff buff){
@@ -116,8 +106,6 @@ public class PlayerControllerScript : MonoBehaviour {
 		buff.attach (this);
 
 	}
-
-
 
 	public void setDJump(){
 		canDoubleJump =! canDoubleJump;
@@ -130,5 +118,4 @@ public class PlayerControllerScript : MonoBehaviour {
 	public void detach(CreatureBuff buff){
 		buff.detach (this);
 	}
-
 }

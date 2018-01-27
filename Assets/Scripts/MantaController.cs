@@ -6,8 +6,9 @@ public class MantaController : MonoBehaviour {
 
 	[SerializeField] private float hp;
 	[SerializeField] private float speed;
-	[SerializeField] private bool isWild; 
 	[SerializeField] private MantaBuff myBuff; 
+	private bool isWild = true; 
+	private bool isSelected = false;
 
 
 	public MantaBuff getBuff(){
@@ -15,20 +16,18 @@ public class MantaController : MonoBehaviour {
 	}
 
 	public void select(){
-		/*TODO
-		 * Ativa os controles na criatura
-		 * Ativa a camera da criatura/centraliza a camera na criatura
-		*/ 
+		isSelected = true; //TODO
+	}
+
+	public void deselect(){
+		isSelected = false;
 	}
 
 	void Start(){
-		myBuff = new MantaBuff ();
-		
+		myBuff = new MantaBuff (); //chamar o construtor direto PODE DAR PROBLEMA; confirmar
 	}
 
 	void Update(){
 		
 	}
-
-
 }
