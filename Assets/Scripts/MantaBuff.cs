@@ -15,7 +15,7 @@ public class MantaBuff : MonoBehaviour, CreatureBuff {
 	void detach(PlayerControllerScript player){
 		/*TODO
 		 * Desligar passivas,
-		 * Criar manta com X HP,
+		 * Criar manta com X HP, e essebuff
 		 * player.removeBuff(this)
 		*/
 	}
@@ -31,7 +31,13 @@ public class MantaBuff : MonoBehaviour, CreatureBuff {
 	void Start () {
 		
 	}
-	
+
+	/*
+	 * A criatura sabe quand ela é assimilada pela primeira vez
+	 * Acriatura é responsável pela própria auto-destruição
+	 * Portanto, elá é responsácel por se registrar e desregistrar do seletor
+	*/
+
 	// Update is called once per frame
 	void Update () {
 		
