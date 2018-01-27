@@ -8,4 +8,5 @@ public interface CreatureBuff {
 	void detach (PlayerControllerScript player);
 	void action (PlayerControllerScript player);
 	void select ();
+	void deselect ();
 }

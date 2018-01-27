@@ -5,6 +5,7 @@ using UnityEngine;
 public class MantaBuff : MonoBehaviour, CreatureBuff {
 
 	bool isAttached;
+	bool isWild;
 	int hpAmount = 20;
 
 	public void attach(PlayerControllerScript player){
@@ -15,7 +16,7 @@ public class MantaBuff : MonoBehaviour, CreatureBuff {
 		*/
 		player.setDJump();
 		isAttached = true;
-		print (isAttached);
+		//print (isAttached);
 		player.addTotalHp (hpAmount);
 	}
 
@@ -24,6 +25,14 @@ public class MantaBuff : MonoBehaviour, CreatureBuff {
 			gameObject.GetComponent<PlayerControllerScript>().select();
 		}else{
 			gameObject.GetComponent<MantaController>().select();
+		}
+	}
+
+	public void deselect(){
+		if (isAttached) {
+			gameObject.GetComponent<PlayerControllerScript>().deselect();
+		}else{
+			gameObject.GetComponent<MantaController>().deselect();
 		}
 	}
 
@@ -36,6 +45,7 @@ public class MantaBuff : MonoBehaviour, CreatureBuff {
 		player.setDJump ();
 		isAttached = false;
 		player.addTotalHp (-hpAmount);
+
 	}
 
 	public void action(PlayerControllerScript player){
@@ -47,7 +57,7 @@ public class MantaBuff : MonoBehaviour, CreatureBuff {
 
 	// Use this for initialization
 	void Start () {
-		isAttached = false;	
+		isAttached = false;
 	}
 
 	/*

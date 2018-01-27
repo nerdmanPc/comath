@@ -5,10 +5,12 @@ using UnityEngine;
 public class Pokedex : MonoBehaviour {
 	[SerializeField] private CreatureBuff[] arrayBuff = new CreatureBuff[4];
 	[SerializeField] private PlayerControllerScript player;
+	private CreatureBuff selected; //se null, player selecionado
 
-	/*
+
 	private static Pokedex instance;
 
+	/*
 	private Pokedex(){
 	}
 
@@ -19,9 +21,18 @@ public class Pokedex : MonoBehaviour {
 	}
 	*/
 
-	public void selector(int index){
-		if (arrayBuff [index] != null) {
-			arrayBuff [index].select ();
+	public void selector(int slotID){ //Mover a Câmera de acordo
+		if (selected == null) {
+			player.deselect ();
+		} else {
+			selected.deselect ();
+		}
+		if (slotID == 0) {
+			selected = null;
+			player.select ();
+		} else {
+			selected = arrayBuff [slotID - 1];
+			selected.select ();
 		}
 	}
 
@@ -32,6 +43,7 @@ public class Pokedex : MonoBehaviour {
 
 	}
 
+	/*Deve ser chamada pelo CreatureBuff quando dá assimilate pela primeira vez*/
 	public void newPokemon(CreatureBuff buff){
 		arrayBuff[0] = buff;
 		print ("hue");
@@ -49,19 +61,19 @@ public class Pokedex : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Alpha1)) {
-			player.select ();
-		}
-		if (Input.GetKeyDown (KeyCode.Alpha2)) {
 			selector (0);
 		}
-		if (Input.GetKeyDown (KeyCode.Alpha3)) {
-			selector (1);
+		if (Input.GetKeyDown (KeyCode.Alpha2)) {
+			selector (1;
 		}
-		if (Input.GetKeyDown (KeyCode.Alpha4)) {
+		if (Input.GetKeyDown (KeyCode.Alpha3)) {
 			selector (2);
 		}
-		if (Input.GetKeyDown (KeyCode.Alpha5)) {
+		if (Input.GetKeyDown (KeyCode.Alpha4)) {
 			selector (3);
+		}
+		if (Input.GetKeyDown (KeyCode.Alpha5)) {
+			selector (4);
 		}
 		if (Input.GetKeyDown (KeyCode.R)) {
 			print ("R");
