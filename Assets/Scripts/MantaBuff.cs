@@ -4,23 +4,41 @@ using UnityEngine;
 
 public class MantaBuff : MonoBehaviour, CreatureBuff {
 
-	void attach(PlayerControllerScript player){
+	bool isAttached;
+	int hpAmount = 20;
+
+	public void attach(PlayerControllerScript player){
 		/*TODO
 		 * Ligar passivas,
 		 * Destruir dono,
 		 * player.addBuff(this);
 		*/
+		player.setDJump();
+		isAttached = true;
+		print (isAttached);
+		player.addTotalHp (hpAmount);
 	}
 
-	void detach(PlayerControllerScript player){
+	public void select(){
+		if (isAttached) {
+			gameObject.GetComponent<PlayerControllerScript>().select();
+		}else{
+			gameObject.GetComponent<MantaController>().select();
+		}
+	}
+
+	public void detach(PlayerControllerScript player){
 		/*TODO
 		 * Desligar passivas,
 		 * Criar manta com X HP, e essebuff
 		 * player.removeBuff(this)
 		*/
+		player.setDJump ();
+		isAttached = false;
+		player.addTotalHp (-hpAmount);
 	}
 
-	void action(PlayerControllerScript player){
+	public void action(PlayerControllerScript player){
 		/*TODO
 		 * Notificar player
 		 * executar
@@ -29,7 +47,7 @@ public class MantaBuff : MonoBehaviour, CreatureBuff {
 
 	// Use this for initialization
 	void Start () {
-		
+		isAttached = false;	
 	}
 
 	/*
@@ -42,4 +60,5 @@ public class MantaBuff : MonoBehaviour, CreatureBuff {
 	void Update () {
 		
 	}
+		
 }
