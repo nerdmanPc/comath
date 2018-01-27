@@ -5,23 +5,16 @@ using UnityEngine;
 public class PlayerControllerScript : MonoBehaviour {
 
 	public int totalHp;
-
 	public float speed;
-
 	private int numJump;
-
 	private bool canDoubleJump;
-
+	private bool isSelected;
+	private CreatureBuff selectedBuff; 
 	private Rigidbody2D rb2D;
-
 	public Transform FloorCenter;
-
 	public Transform FloorLeft;
-
 	public Transform FloorRight;
-
 	public float jumpHeight;
-
 	public Pokedex myPokedex;
 
 	// Use this for initialization
@@ -106,14 +99,20 @@ public class PlayerControllerScript : MonoBehaviour {
 	}
 
 	public void select(){
+		isSelected = true;
+		CreatureBuff = null;
 		/*TODO
 		 * Ativa os controles no player
 		 * Ativa a camera do player/centraliza a camera no player
 		*/ 
 	}
 
+	public void deselect(){
+		//TODO
+	}
+
 	public void assimilate(CreatureBuff buff){
-		myPokedex.newPokemon (buff);
+		myPokedex.newPokemon (buff);  //Pode ser delegado ao Buff
 		buff.attach (this);
 
 	}
@@ -121,7 +120,7 @@ public class PlayerControllerScript : MonoBehaviour {
 
 
 	public void setDJump(){
-		canDoubleJump = ! canDoubleJump;
+		canDoubleJump =! canDoubleJump;
 	}
 
 	public void shout(){
