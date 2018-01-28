@@ -6,30 +6,14 @@ public class MantaController : MonoBehaviour {
 
 	[SerializeField] private float hp;
 	[SerializeField] private float speed;
-	[SerializeField] private MantaBuff myBuff; 
-	[SerializeField] private bool isWild = true; 
 	[SerializeField] private bool isSelected = false;
-
 	[SerializeField] public GameObject prefab; //INICIALIZAR NO PREFAB
-	[SerializeField] private TestPlayer player; //INICIALIZAR NO PREFAB
-
-	/*
-	public MantaController makeManta(Transform position){
-		GameObject go =  Instantiate(prefab, position) as GameObject;
-		return go.GetComponent<MantaController> ();
-	}
-	*/
+	[SerializeField] private TestPlayer myPlayer; //INICIALIZAR NO PREFAB
+	private bool isWild = true; 
+	private Rigidbody2D rb2D;
 
 	public void kill(){
 		Destroy (this.gameObject);
-	}
-
-	public MantaBuff getBuff(){
-		return myBuff;
-	}
-
-	public bool getIsWild(){ 
-		return isWild; 
 	}
 
 	public void select(){
@@ -44,11 +28,33 @@ public class MantaController : MonoBehaviour {
 		GameObject.Destroy (gameObject);
 	}
 
+	public void assignPlayer(TestPlayer player){
+		myPlayer = player;
+	}
+
 	void Start(){
-		myBuff = gameObject.GetComponent<MantaBuff> (); //chamar o construtor direto PODE DAR PROBLEMA; confirmar
+		rb2D = GetComponent<Rigidbody2D> ();
 	}
 
 	void Update(){
-		
+		if (isSelected){
+			Moviment ();
+		}
+	}
+
+	void OnTriggerStay2D(Collider2D trigger){		
+		if (isSelected && trigger.attachedRigidbody.gameObject.CompareTag ("lever") && Input.GetKeyDown(KeyCode.Q)) {
+			GameObject go = trigger.attachedRigidbody.gameObject;
+			go.GetComponent<LeverController>().action();
+		}
+	}
+
+	void Moviment (){
+		float horizontalMovement = Input.GetAxis ("Horizontal");
+		float verticalMovement = Input.GetAxis ("Vertical");
+
+		rb2D.velocity =  new Vector2(horizontalMovement, verticalMovement);
+
+		//FLIPAR SPRITE AQUI TODO
 	}
 }

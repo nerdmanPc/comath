@@ -11,14 +11,25 @@ public class TestPlayer : MonoBehaviour {
 	public Transform FloorCenter;
 	public Transform FloorLeft;
 	public Transform FloorRight;
-	public Camera camera;
+	//public Camera camera;
 	public float jumpHeight;
 	public bool isSelected = true;
+	public Vector3 spawnOffset = new Vector3(0.5f, 0.0f, 0.0f);
 
 	private bool canDoubleJump = false;
 	public bool mantaIsIn = false;
 	public MantaController myManta = null;
 	public GameObject mantaPrefab;
+
+	private bool canShoot = false;
+	public bool spitterIsIn = false;
+	public SpitterController mySpitter = null;
+	public GameObject spitterPrefab;
+
+	private bool canSmash = false;
+	public bool atlasIsIn = false;
+	public SpitterController myAtlas = null;
+	public GameObject atlasPrefab; //SETAR NA UNITY
 
 	void Start () {
 		rb2D = this.gameObject.GetComponent<Rigidbody2D> ();
@@ -30,17 +41,31 @@ public class TestPlayer : MonoBehaviour {
 	}*/
 
 	void Update(){
-		Moviment ();
-		Jump (); //processa jump
+		if (isSelected){
+			Moviment ();
+			Jump (); //processa jump
+		}
 		Selector();
 	}
 
 	void OnTriggerStay2D(Collider2D trigger){
-		if (Input.GetKeyDown(KeyCode.DownArrow)){
+		if (Input.GetKeyDown(KeyCode.DownArrow) && isSelected){
 			if (trigger.attachedRigidbody.gameObject.CompareTag ("manta")) {
 				getManta (trigger.attachedRigidbody.gameObject.GetComponent<MantaController>());
+			}else if (trigger.attachedRigidbody.gameObject.CompareTag ("spitter")) {
+				getSpitter (trigger.attachedRigidbody.gameObject.GetComponent<SpitterController>());
+			}else if (trigger.attachedRigidbody.gameObject.CompareTag ("atlas")) {
+				getAtlas (trigger.attachedRigidbody.gameObject.GetComponent<AtlasController>());
 			}
 		}
+	}
+
+
+
+	//**** REVISEI ATÉ AQUI ***//
+
+	void getAtlas (AtlasController atlas){
+		return; //TODO
 	}
 
 	bool VerifyFloor(string layer){
@@ -58,6 +83,11 @@ public class TestPlayer : MonoBehaviour {
 
 		if (horizontalMovement != 0) {
 			rb2D.velocity = new Vector2 (horizontalMovement * speed, rb2D.velocity.y);
+			if (horizontalMovement > 0) {
+				spawnOffset = new Vector3 (0.5f, 0.0f, 0.0f);
+			} else {
+				spawnOffset = new Vector3 (-0.5f, 0.0f, 0.0f);
+			}
 		} else {
 			rb2D.velocity = new Vector2 (0f, rb2D.velocity.y);
 		}
@@ -83,6 +113,9 @@ public class TestPlayer : MonoBehaviour {
 		if (Input.GetKeyDown (KeyCode.Alpha1)) {
 			if (myManta != null)
 				myManta.deselect ();
+			if (mySpitter != null) {
+				mySpitter.deselect ();
+			}
 			this.isSelected = true;
 			//TODO Câmera no Player
 		}else if (Input.GetKeyDown (KeyCode.Alpha2) && (myManta != null || mantaIsIn)) {
@@ -90,7 +123,20 @@ public class TestPlayer : MonoBehaviour {
 				releaseManta ();
 			}
 			this.isSelected = false;
+			if (mySpitter != null) {
+				mySpitter.deselect ();
+			}
 			myManta.select();
+			//TODO Câmera no Player
+		}else if (Input.GetKeyDown (KeyCode.Alpha3) && (mySpitter != null || spitterIsIn)) {
+			if (spitterIsIn) {
+				releaseSpitter ();
+			}
+			this.isSelected = false;
+			if (myManta != null) {
+				myManta.deselect ();
+			}
+			mySpitter.select();
 			//TODO Câmera no Player
 		}
 	}
@@ -113,7 +159,7 @@ public class TestPlayer : MonoBehaviour {
 		canDoubleJump = false;
 		mantaIsIn = false;
 
-		GameObject go = Instantiate(mantaPrefab, this.transform);
+		GameObject go = Instantiate(mantaPrefab, transform.position + spawnOffset, Quaternion.identity);
 		myManta = go.GetComponent<MantaController> ();
 	}
 
@@ -122,5 +168,33 @@ public class TestPlayer : MonoBehaviour {
 		isSelected = true;
 		// TODO Camera Focus
 		myManta = null;
+	}
+
+	public void getSpitter(SpitterController spitter){
+		//TODO Animações
+		recieveSpitter (spitter);
+	}
+
+	public void recieveSpitter(SpitterController spitter){
+		totalHp += 20;
+		canShoot = true;
+		spitterIsIn = true;
+		spitter.kill ();
+	}
+
+	public void releaseSpitter(){
+		totalHp -= 20;
+		canShoot = false;
+		spitterIsIn = false;
+
+		GameObject go = Instantiate(spitterPrefab, transform.position + spawnOffset, Quaternion.identity);
+		mySpitter = go.GetComponent<SpitterController> ();
+	}
+
+	//A ser chamado pela spitter
+	public void loseSpitter(){
+		isSelected = true;
+		// TODO Camera Focus
+		mySpitter = null;
 	}
 }

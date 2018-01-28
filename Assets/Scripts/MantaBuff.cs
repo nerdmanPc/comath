@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MantaBuff : MonoBehaviour, CreatureBuff {
-
+public class MantaBuff : MonoBehaviour {
+	/*
 	[SerializeField] MantaController controller;
 	bool isAttached = false;
 	//isWild = true;
@@ -28,7 +28,7 @@ public class MantaBuff : MonoBehaviour, CreatureBuff {
 	public void detach(PlayerControllerScript player){
 		/*TODO
 		 * CRIAR MANTA
-		*/
+		
 		player.setDJump ();
 		isAttached = false;
 		player.addTotalHp (-hpAmount);
@@ -54,7 +54,7 @@ public class MantaBuff : MonoBehaviour, CreatureBuff {
 		/*TODO
 		 * Notificar player
 		 * executar
-		*/
+		
 		Debug.Log ("Ação do Buff indisponível\n");
 	}
 	
