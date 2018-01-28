@@ -4,19 +4,24 @@ using UnityEngine;
 
 public class MantaBuff : MonoBehaviour, CreatureBuff {
 
+	[SerializeField] MantaController controller;
 	bool isAttached = false;
-	bool isWild = true;
+	//isWild = true;
 	int hpAmount = 20;
 
 	public void attach(PlayerControllerScript player){
-		/*TODO
-		 * Ligar passivas,
-		 * Destruir dono,
-		 * player.addBuff(this);
-		*/
+		if (isAttached) {
+			Debug.Log ("Buff já está assimilado!\n");
+			return;
+		}
+		if (controller.getIsWild ()) {
+			player.getPokedex().newPokemon (this);
+			controller.suicide ();
+		} else {
+			controller.suicide ();
+		}
 		player.setDJump();
 		isAttached = true;
-		//print (isAttached);
 		player.addTotalHp (hpAmount);
 	}
 
@@ -52,23 +57,17 @@ public class MantaBuff : MonoBehaviour, CreatureBuff {
 		*/
 		Debug.Log ("Ação do Buff indisponível\n");
 	}
+	
+	void Start () {
+		controller = GetComponent<MantaController> ();
+	}
 
 	// Use this for initialization
-	/*
-	void Start () {
-		isAttached = false;
-	}
-	/*
+
 
 	/*
 	 * A criatura sabe quand ela é assimilada pela primeira vez
 	 * Acriatura é responsável pela própria auto-destruição
 	 * Portanto, elá é responsácel por se registrar e desregistrar do seletor
 	*/
-
-	// Update is called once per frame
-	void Update () {
-		
-	}
-		
 }

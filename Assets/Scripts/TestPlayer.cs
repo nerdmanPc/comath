@@ -2,56 +2,47 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControllerScript : MonoBehaviour {
+public class TestPlayer : MonoBehaviour {
 
-	public int totalHp;
+	public int totalHp = 100;
 	public float speed;
-	private int numJump;
-	private bool canDoubleJump;
-	private bool isSelected;
-	private CreatureBuff selectedBuff; 
+	private int numJump = 2;
 	private Rigidbody2D rb2D;
 	public Transform FloorCenter;
 	public Transform FloorLeft;
 	public Transform FloorRight;
+	public Camera camera;
 	public float jumpHeight;
-	public Pokedex myPokedex;
+	public bool isSelected = true;
 
-	// Use this for initialization
+	private bool canDoubleJump = false;
+	public bool mantaIsIn = false;
+	public MantaController myManta = null;
+	public GameObject mantaPrefab;
+
 	void Start () {
-		numJump = 2;
-		totalHp = 100;
 		rb2D = this.gameObject.GetComponent<Rigidbody2D> ();
-		myPokedex = gameObject.AddComponent<Pokedex>();
-		canDoubleJump = false;
 	}
 
-	// Update is called once per frame
-	void FixedUpdate () {
-		Moviment ();
-	}
-
-	public Pokedex getPokedex(){
-		return myPokedex;
-	}
-	//public GameObject dummy;
-
+	/*
 	void OnTriggerStay2D(Collider2D other){
-		CreatureBuff buff = other.gameObject.GetComponent<CreatureBuff>();
-		if ((Input.GetKeyDown (KeyCode.DownArrow))  && (buff != null)) {
-			buff.attach (this);
+		
+	}*/
+
+	void Update(){
+		Moviment ();
+		Jump (); //processa jump
+		Selector();
+	}
+
+	void OnTriggerStay2D(Collider2D trigger){
+		if (Input.GetKeyDown(KeyCode.DownArrow)){
+			if (trigger.attachedRigidbody.gameObject.CompareTag ("manta")) {
+				getManta (trigger.attachedRigidbody.gameObject.GetComponent<MantaController>());
+			}
 		}
 	}
 
-	void Update(){
-
-		Jump (); //processa jump
-	}
-
-	public void addTotalHp(int value){
-		totalHp += value;
-	}
-		
 	bool VerifyFloor(string layer){
 		bool isFloorLeft = Physics2D.Linecast (this.transform.position, FloorLeft.position, 1 << LayerMask.NameToLayer(layer));
 		bool isFloorRight = Physics2D.Linecast (this.transform.position, FloorRight.position, 1 << LayerMask.NameToLayer(layer));
@@ -88,36 +79,48 @@ public class PlayerControllerScript : MonoBehaviour {
 		}
 	}
 
-	public void select(){
+	void Selector(){
+		if (Input.GetKeyDown (KeyCode.Alpha1)) {
+			if (myManta != null)
+				myManta.deselect ();
+			this.isSelected = true;
+			//TODO Câmera no Player
+		}else if (Input.GetKeyDown (KeyCode.Alpha2) && (myManta != null || mantaIsIn)) {
+			if (mantaIsIn) {
+				releaseManta ();
+			}
+			this.isSelected = false;
+			myManta.select();
+			//TODO Câmera no Player
+		}
+	}
+
+
+	public void getManta(MantaController manta){
+		//TODO Animações
+		recieveManta (manta);
+	}
+
+	public void recieveManta(MantaController manta){
+		totalHp += 20;
+		canDoubleJump = true;
+		mantaIsIn = true;
+		manta.kill ();
+	}
+
+	public void releaseManta(){
+		totalHp -= 20;
+		canDoubleJump = false;
+		mantaIsIn = false;
+
+		GameObject go = Instantiate(mantaPrefab, this.transform);
+		myManta = go.GetComponent<MantaController> ();
+	}
+
+	//A ser chamado pela Manta
+	public void loseManta(){
 		isSelected = true;
-		selectedBuff = null; 
-	}
-
-	public void select(CreatureBuff buff){
-		isSelected = true;
-		selectedBuff = buff;
-	}
-
-	public void deselect(){
-		isSelected = false;
-		selectedBuff = null;
-	}
-
-	public void assimilate(CreatureBuff buff){
-		myPokedex.newPokemon (buff);  //Pode ser delegado ao Buff
-		buff.attach (this);
-
-	}
-
-	public void setDJump(){
-		canDoubleJump =! canDoubleJump;
-	}
-
-	public void shout(){
-		print ("AAAAAAAAAAAAAAAHHHH");
-	}
-
-	public void detach(CreatureBuff buff){
-		buff.detach (this);
+		// TODO Camera Focus
+		myManta = null;
 	}
 }

@@ -6,22 +6,9 @@ public class Pokedex : MonoBehaviour {
 	[SerializeField] private CreatureBuff[] arrayBuff = new CreatureBuff[4];
 	[SerializeField] private PlayerControllerScript player;
 	private CreatureBuff selected; //se null, player selecionado
-
-
 	private static Pokedex instance;
 
-	/*
-	private Pokedex(){
-	}
-
-	public static Pokedex setInstance(){
-		if(instance == null)
-			instance = new Pokedex();		
-		return instance;
-	}
-	*/
-
-	public void selector(int slotID){ //Mover a Câmera de acordo
+	public void selector(int slotID){ //Mover a Câmera de acordo TODO
 		if (selected == null) {
 			player.deselect ();
 		} else {
@@ -45,20 +32,16 @@ public class Pokedex : MonoBehaviour {
 
 	/*Deve ser chamada pelo CreatureBuff quando dá assimilate pela primeira vez*/
 	public void newPokemon(CreatureBuff buff){
-		arrayBuff[0] = buff;
-		print ("hue");
-
-	}
-
-	/*
-	public CreatureBuff getBuff(int index){
-		if (arrayBuff [index] != null) {
-			return arrayBuff [index];
+		for (int i = 0; i < 4; i++) {
+			if (arrayBuff [i] == null) {
+				arrayBuff [i] = buff;
+				break;
+			}
 		}
 	}
-	*/
-	
-	// Update is called once per frame
+
+	//public static void removePokemon (CreatureBuff buff);//TODO
+
 	void Update () {
 		if (Input.GetKeyDown (KeyCode.Alpha1)) {
 			selector (0);
@@ -80,3 +63,20 @@ public class Pokedex : MonoBehaviour {
 		}
 	}
 }
+/*
+	public CreatureBuff getBuff(int index){
+		if (arrayBuff [index] != null) {
+			return arrayBuff [index];
+		}
+	}
+*/
+/*
+private Pokedex(){
+}
+
+public static Pokedex setInstance(){
+	if(instance == null)
+		instance = new Pokedex();		
+	return instance;
+}
+*/
