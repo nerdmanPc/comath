@@ -18,7 +18,8 @@ public class LeverController : MonoBehaviour {
 	}
 
 	public void action (){
-		door.open ();
+		door.kill ();
+		//door.open ();
 		//TODO
 	}
 }

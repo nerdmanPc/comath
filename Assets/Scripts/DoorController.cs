@@ -29,4 +29,8 @@ public class DoorController : MonoBehaviour {
 			doorCollider.isTrigger = false;
 		}
 	}
+
+	public void kill(){
+		Destroy (this.gameObject);
+	}
 }

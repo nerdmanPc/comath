@@ -269,7 +269,11 @@ MonoBehaviour:
   FloorCenter: {fileID: 4034860422581018}
   FloorLeft: {fileID: 4764386802882080}
   FloorRight: {fileID: 4683313160452522}
-  jumpHeight: 6
+  attackTrigger: {fileID: 0}
+  sprites: {fileID: 0}
+  projetil: {fileID: 0}
+  anim: {fileID: 0}
+  jumpHeight: 4.2
   isSelected: 1
   spawnOffset: {x: 0.5, y: 0, z: 0}
   mantaIsIn: 0
@@ -279,6 +283,9 @@ MonoBehaviour:
   spitterIsIn: 0
   mySpitter: {fileID: 0}
   spitterPrefab: {fileID: 0}
+  atlasIsIn: 0
+  myAtlas: {fileID: 0}
+  atlasPrefab: {fileID: 0}
 --- !u!212 &212285686943785102
 SpriteRenderer:
   m_ObjectHideFlags: 1

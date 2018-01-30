@@ -11,6 +11,10 @@ public class TestPlayer : MonoBehaviour {
 	public Transform FloorCenter;
 	public Transform FloorLeft;
 	public Transform FloorRight;
+	public Transform attackTrigger;
+	public Transform sprites;
+	public Transform projetil;
+	public Animator anim;
 	//public Camera camera;
 	public float jumpHeight;
 	public bool isSelected = true;
@@ -43,7 +47,10 @@ public class TestPlayer : MonoBehaviour {
 	void Update(){
 		if (isSelected){
 			Moviment ();
-			Jump (); //processa jump
+			Jump ();
+			Shot ();
+			Direction ();
+			StartAttack ();
 		}
 		Selector();
 	}
@@ -107,6 +114,35 @@ public class TestPlayer : MonoBehaviour {
 			//print ("resetou");
 			numJump = 2;
 		}
+	}
+
+	void Direction(){
+		float horizontalMovement = Input.GetAxis ("Horizontal");
+		if (horizontalMovement < 0) {
+
+			sprites.transform.eulerAngles = new Vector3 (0f, 180f, 0f);
+		} else if(horizontalMovement > 0) {
+			sprites.transform.eulerAngles = new Vector3 (0f, 0f, 0f);
+		}
+	}
+
+	void Shot(){
+		if(Input.GetKeyDown(KeyCode.W)){
+			Instantiate (projetil, this.transform.position, sprites.transform.rotation);
+		}
+	}
+
+	void StartAttack(){
+		if(Input.GetKeyDown(KeyCode.Q)){
+			attackTrigger.gameObject.SetActive(true);
+			anim.SetBool ("attacking",true);
+			Invoke ("EndAttack", 1);
+		}
+	}
+
+	void EndAttack(){
+		attackTrigger.gameObject.SetActive(false);
+		anim.SetBool ("attacking",false);
 	}
 
 	void Selector(){
